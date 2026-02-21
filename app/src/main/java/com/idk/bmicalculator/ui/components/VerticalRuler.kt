@@ -26,7 +26,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -64,6 +66,8 @@ fun VerticalRuler(
     val isDragged by listState.interactionSource.collectIsDraggedAsState()
     val colorFg = MaterialTheme.colorScheme.onSurface
 
+    var isProgrammaticScroll by remember { mutableStateOf(false) }
+
     val scrollValue by remember(min, max, tickSpacing, tickHeightPx) {
         derivedStateOf {
             val index = listState.firstVisibleItemIndex
@@ -75,19 +79,22 @@ fun VerticalRuler(
     }
 
     LaunchedEffect(scrollValue) {
-        if (listState.isScrollInProgress) {
+        if (listState.isScrollInProgress && !isProgrammaticScroll) {
             onValueChange(scrollValue)
         }
     }
 
     LaunchedEffect(value, max, tickSpacing) {
         if (!isDragged && !listState.isScrollInProgress) {
-            val offsetIndex = ((max - value) / tickSpacing).coerceAtLeast(0.0)
-            val targetIndex = offsetIndex.toInt()
-            val targetOffsetPx = ((offsetIndex - targetIndex) * tickHeightPx).roundToInt()
-
-            // 🔺 Upgraded to animateScrollToItem for smooth tap transitions
-            listState.animateScrollToItem(targetIndex, targetOffsetPx)
+            isProgrammaticScroll = true
+            try {
+                val offsetIndex = ((max - value) / tickSpacing).coerceAtLeast(0.0)
+                val targetIndex = offsetIndex.toInt()
+                val targetOffsetPx = ((offsetIndex - targetIndex) * tickHeightPx).roundToInt()
+                listState.animateScrollToItem(targetIndex, targetOffsetPx)
+            } finally {
+                isProgrammaticScroll = false
+            }
         }
     }
 
