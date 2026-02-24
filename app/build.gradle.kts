@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.idk.bmicalculator"
+    namespace = "com.rabeya.bmiapp"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.idk.bmicalculator"
+        applicationId = "com.rabeya.bmiapp"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

@@ -1,4 +1,4 @@
-package com.idk.bmicalculator.ui.components
+package com.rabeya.bmiapp.ui.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -6,8 +6,8 @@ import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +16,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
@@ -45,7 +45,7 @@ import kotlin.math.roundToInt
 
 @Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 @Composable
-fun VerticalRuler(
+fun HorizontalRuler(
     value: Double,
     tickSpacing: Double,
     min: Double,
@@ -57,9 +57,9 @@ fun VerticalRuler(
 ) {
     require(tickSpacing > 0 && min < max) { "Invalid tick spacing or value range" }
 
-    val trackWidth = 80.dp
-    val tickHeightDp = 24.dp
-    val tickHeightPx = with(LocalDensity.current) { tickHeightDp.toPx() }
+    val trackHeight = 80.dp
+    val tickWidthDp = 24.dp
+    val tickWidthPx = with(LocalDensity.current) { tickWidthDp.toPx() }
 
     val totalTicks = ceil((max - min) / tickSpacing).roundToInt() + 1
     val listState = rememberLazyListState()
@@ -68,12 +68,12 @@ fun VerticalRuler(
 
     var isProgrammaticScroll by remember { mutableStateOf(false) }
 
-    val scrollValue by remember(min, max, tickSpacing, tickHeightPx) {
+    val scrollValue by remember(min, max, tickSpacing, tickWidthPx) {
         derivedStateOf {
             val index = listState.firstVisibleItemIndex
             val offset = listState.firstVisibleItemScrollOffset
-            val exactFractionalIndex = index + (offset / tickHeightPx)
-            val calculatedValue = max - (exactFractionalIndex * tickSpacing)
+            val exactFractionalIndex = index + (offset / tickWidthPx)
+            val calculatedValue = min + (exactFractionalIndex * tickSpacing)
             calculatedValue.coerceIn(min, max)
         }
     }
@@ -84,13 +84,13 @@ fun VerticalRuler(
         }
     }
 
-    LaunchedEffect(value, max, tickSpacing) {
+    LaunchedEffect(value, min, tickSpacing) {
         if (!isDragged && !listState.isScrollInProgress) {
             isProgrammaticScroll = true
             try {
-                val offsetIndex = ((max - value) / tickSpacing).coerceAtLeast(0.0)
+                val offsetIndex = ((value - min) / tickSpacing).coerceAtLeast(0.0)
                 val targetIndex = offsetIndex.toInt()
-                val targetOffsetPx = ((offsetIndex - targetIndex) * tickHeightPx).roundToInt()
+                val targetOffsetPx = ((offsetIndex - targetIndex) * tickWidthPx).roundToInt()
                 listState.animateScrollToItem(targetIndex, targetOffsetPx)
             } finally {
                 isProgrammaticScroll = false
@@ -99,67 +99,66 @@ fun VerticalRuler(
     }
 
     BoxWithConstraints(
-        modifier = modifier.height(400.dp),
-        contentAlignment = Alignment.CenterStart
+        modifier = modifier.fillMaxWidth().height(trackHeight),
+        contentAlignment = Alignment.TopCenter
     ) {
-        val halfHeight = this.maxHeight / 2
-        val verticalPadding = halfHeight - (tickHeightDp / 2)
+        val halfWidth = this.maxWidth / 2
+        val horizontalPadding = halfWidth - (tickWidthDp / 2)
 
         Box(
             modifier = Modifier
-                .width(trackWidth)
-                .fillMaxHeight()
+                .fillMaxWidth()
+                .height(trackHeight)
                 .clip(CircleShape.copy(CornerSize(20.dp)))
                 .background(MaterialTheme.colorScheme.surfaceVariant)
         )
 
-        LazyColumn(
+        LazyRow(
             state = listState,
             modifier = Modifier
+                .fillMaxWidth()
                 .fillMaxHeight()
-                .width(trackWidth)
-                .padding(end = 20.dp),
-            contentPadding = PaddingValues(vertical = verticalPadding),
-            horizontalAlignment = Alignment.End
+                .padding(top = 20.dp),
+            contentPadding = PaddingValues(horizontal = horizontalPadding),
+            verticalAlignment = Alignment.Top
         ) {
             items(totalTicks) { index ->
-                val tickValue = max - index * tickSpacing
-                val isMajor = index % majorTickFrequency == 0 // 🔺 Uses dynamic frequency
+                val tickValue = min + index * tickSpacing
+                val isMajor = index % majorTickFrequency == 0
 
-                Row(
+                Column(
                     modifier = Modifier
-                        .height(tickHeightDp)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End
+                        .width(tickWidthDp)
+                        .fillMaxHeight(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top
                 ) {
+                    Box(
+                        modifier = Modifier
+                            .width(2.dp)
+                            .height(if (isMajor) 20.dp else 10.dp)
+                            .background(if (isMajor) colorFg else colorFg.copy(alpha = 0.6f))
+                    )
+
                     if (isMajor) {
                         Text(
                             text = labelFormatter(tickValue),
                             fontSize = 12.sp,
-                            modifier = Modifier.padding(end = 8.dp)
+                            modifier = Modifier.padding(top = 4.dp)
                         )
                     } else {
-                        Spacer(Modifier.width(28.dp))
+                        Spacer(Modifier.height(28.dp))
                     }
-
-                    Box(
-                        modifier = Modifier
-                            .height(2.dp)
-                            .width(if (isMajor) 20.dp else 10.dp)
-                            .background(if (isMajor) colorFg else colorFg.copy(alpha = 0.6f))
-                    )
                 }
             }
         }
 
-        // Center Indicator (Canvas) remains exactly the same...
-        Box(modifier = Modifier.align(Alignment.CenterStart)) {
-            Canvas(modifier = Modifier.size(20.dp).offset(x = 65.dp)) {
+        Box(modifier = Modifier.align(Alignment.TopCenter)) {
+            Canvas(modifier = Modifier.size(20.dp).offset(y = (-5).dp)) {
                 val path = Path().apply {
-                    moveTo(size.width, 0f)
-                    lineTo(size.width, size.height)
-                    lineTo(0f, size.height / 2f)
+                    moveTo(0f, 0f)
+                    lineTo(size.width, 0f)
+                    lineTo(size.width / 2f, size.height)
                     close()
                 }
                 drawIntoCanvas { canvas ->

@@ -1,4 +1,4 @@
-package com.idk.bmicalculator
+package com.rabeya.bmiapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -32,11 +32,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import com.idk.bmicalculator.ui.page.GenderScreen
-import com.idk.bmicalculator.ui.page.HeightScreen
-import com.idk.bmicalculator.ui.page.ResultScreen
-import com.idk.bmicalculator.ui.page.WeightScreen
-import com.idk.bmicalculator.ui.theme.BMICalculatorTheme
+import com.rabeya.bmiapp.ui.page.GenderScreen
+import com.rabeya.bmiapp.ui.page.HeightScreen
+import com.rabeya.bmiapp.ui.page.ResultScreen
+import com.rabeya.bmiapp.ui.page.WeightScreen
+import com.rabeya.bmiapp.ui.theme.BMICalculatorTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

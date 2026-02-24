@@ -1,4 +1,4 @@
-package com.idk.bmicalculator
+package com.rabeya.bmiapp
 
 import org.junit.Test
 

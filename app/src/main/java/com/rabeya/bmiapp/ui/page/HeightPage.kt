@@ -1,4 +1,4 @@
-package com.idk.bmicalculator.ui.page
+package com.rabeya.bmiapp.ui.page
 
 import android.util.Log
 import androidx.compose.foundation.border
@@ -32,11 +32,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.idk.bmicalculator.HeightUnit
+import com.rabeya.bmiapp.HeightUnit
 import kotlin.math.roundToInt
-import com.idk.bmicalculator.ui.PrevNext
-import com.idk.bmicalculator.ui.UnitDropdownSelect
-import com.idk.bmicalculator.ui.components.VerticalRuler
+import com.rabeya.bmiapp.ui.PrevNext
+import com.rabeya.bmiapp.ui.UnitDropdownSelect
+import com.rabeya.bmiapp.ui.components.VerticalRuler
 
 private const val FEET_MIN = 1.0
 private const val FEET_MAX = 8.0
@@ -194,4 +194,3 @@ fun HeightScreen(
         )
     }
 }
-

@@ -1,4 +1,4 @@
-package com.idk.bmicalculator.ui.page
+package com.rabeya.bmiapp.ui.page
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -29,10 +29,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.idk.bmicalculator.WeightUnit
-import com.idk.bmicalculator.ui.PrevNext
-import com.idk.bmicalculator.ui.UnitDropdownSelect
-import com.idk.bmicalculator.ui.components.HorizontalRuler
+import com.rabeya.bmiapp.WeightUnit
+import com.rabeya.bmiapp.ui.PrevNext
+import com.rabeya.bmiapp.ui.UnitDropdownSelect
+import com.rabeya.bmiapp.ui.components.HorizontalRuler
 import kotlin.math.roundToInt
 
 private const val KG_MIN = 30.0

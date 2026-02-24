@@ -1,4 +1,4 @@
-package com.idk.bmicalculator
+package com.rabeya.bmiapp
 
 enum class Gender {
     Male,

@@ -1,4 +1,4 @@
-package com.idk.bmicalculator.ui
+package com.rabeya.bmiapp.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

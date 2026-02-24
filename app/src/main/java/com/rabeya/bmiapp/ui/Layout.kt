@@ -1,4 +1,4 @@
-package com.idk.bmicalculator.ui
+package com.rabeya.bmiapp.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -60,4 +60,3 @@ fun PrevNext(
         }
     }
 }
-

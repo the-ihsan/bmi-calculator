@@ -1,4 +1,4 @@
-package com.idk.bmicalculator.ui.theme
+package com.rabeya.bmiapp.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

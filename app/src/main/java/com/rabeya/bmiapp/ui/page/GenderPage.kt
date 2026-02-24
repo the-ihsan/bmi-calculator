@@ -1,4 +1,4 @@
-package com.idk.bmicalculator.ui.page
+package com.rabeya.bmiapp.ui.page
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,8 +27,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.idk.bmicalculator.Gender
-import com.idk.bmicalculator.ui.PrevNext
+import com.rabeya.bmiapp.Gender
+import com.rabeya.bmiapp.ui.PrevNext
 
 
 @Composable
