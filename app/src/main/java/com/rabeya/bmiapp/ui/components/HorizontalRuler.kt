@@ -110,7 +110,7 @@ fun HorizontalRuler(
                 .fillMaxWidth()
                 .height(trackHeight)
                 .clip(CircleShape.copy(CornerSize(20.dp)))
-                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .background(MaterialTheme.colorScheme.background)
         )
 
         LazyRow(
@@ -118,6 +118,8 @@ fun HorizontalRuler(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
+                .clip(CircleShape.copy(CornerSize(20.dp)))
+                .background(MaterialTheme.colorScheme.background)
                 .padding(top = 20.dp),
             contentPadding = PaddingValues(horizontal = horizontalPadding),
             verticalAlignment = Alignment.Top

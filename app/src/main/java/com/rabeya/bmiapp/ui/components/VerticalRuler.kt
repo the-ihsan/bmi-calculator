@@ -110,7 +110,7 @@ fun VerticalRuler(
                 .width(trackWidth)
                 .fillMaxHeight()
                 .clip(CircleShape.copy(CornerSize(20.dp)))
-                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .background(MaterialTheme.colorScheme.background)
         )
 
         LazyColumn(
@@ -118,6 +118,8 @@ fun VerticalRuler(
             modifier = Modifier
                 .fillMaxHeight()
                 .width(trackWidth)
+                .clip(CircleShape.copy(CornerSize(20.dp)))
+                .background(MaterialTheme.colorScheme.background)
                 .padding(end = 20.dp),
             contentPadding = PaddingValues(vertical = verticalPadding),
             horizontalAlignment = Alignment.End
